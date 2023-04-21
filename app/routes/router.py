@@ -32,17 +32,15 @@ async def reciveImage(file: UploadFile = File(...)):
                 content = await file.read()
                 F.write(content)
                 F.close()
-            valid_image = verify.verify_image_color(file_path)
-            if valid_image:
-                # uso la función divide_img para dividir los componentes
-                res_divide = divide_img.divide(file_path, file.filename)
-                # Respondo un archivo con la dirección de guardado
-                return FileResponse(res_divide["img_ycrfile"])
-            else:
-                return JSONResponse(
-                    {"error": "La imágen no puede ser procesada de forma correcta debido a que no tiene n la cantidad de canales adecuada"},
-                    status_code=200
-                )
+            res_divide = await divide_img.divide(file_path, file.filename)
+            # Respondo un archivo con la dirección de guardado
+            if res_divide["success"] == True: return FileResponse(res_divide["img_ycrfile"])
+            else: return JSONResponse(
+                content={
+                    "Error": res_divide["error"],
+                },
+                status_code=200
+            )
         else:
             return JSONResponse(
                 content={"Error": "La extención del archivo no es válida"},
