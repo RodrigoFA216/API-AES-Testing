@@ -29,6 +29,7 @@ iv = b"VectorInicial123"  # el vector inicial debe tener 16 bytes de longitud
 
 @router.post("/API/Encrypt/Image", tags=["Recive Imagen"])
 async def reciveImage(file: UploadFile = File(...)):
+    try:
         if file.filename[-4:] in imgFormats:
             # Uno la ruta de imgFolder con el nombre del archivo menos la extensión
             file_folder = os.path.join(imgFolder, file.filename[:-4])
@@ -43,20 +44,23 @@ async def reciveImage(file: UploadFile = File(...)):
             res_divide = await divide_img.divide(file_path, file.filename)
             # Respondo un archivo con la dirección de guardado
             if res_divide["success"] == True: # esto también debería ir en un try catch
-                
                 return FileResponse(res_divide["img_ycrfile"])
             else: return JSONResponse(
                 content={
                     "Error": res_divide["error"],
                 },
-                status_code=200
+                status_code=415
             )
         else:
             return JSONResponse(
                 content={"Error": "La extención del archivo no es válida"},
+                status_code=415
+            )
+    except:
+        return JSONResponse(
+                content={"Error": "Algo Falló con el archivo"},
                 status_code=200
             )
-    
 
 @router.post("/API/Encrypt/", tags=["Recive Imagen"])
 async def reciveImage(file: UploadFile = File(...)):
@@ -84,12 +88,12 @@ async def reciveImage(file: UploadFile = File(...)):
                 content={
                     "Error": res_divide["error"],
                 },
-                status_code=200
+                status_code=415
             )
         else:
             return JSONResponse(
                 content={"Error": "La extención del archivo no es válida"},
-                status_code=200
+                status_code=415
             )
 
 

@@ -52,7 +52,7 @@ origins = [
 
 # Miscelaneus
 
-Los tres niveles del modelo de madurez de Richardson para API REST son los siguientes:
+## Los tres niveles del modelo de madurez de Richardson para API REST son los siguientes:
 
 1. Nivel 0 - POX (Plain Old XML): 
 
@@ -69,3 +69,14 @@ Los tres niveles del modelo de madurez de Richardson para API REST son los sigui
 4. Nivel 3 - HATEOAS (Hypermedia as the Engine of Application State): 
 
 - Este nivel introduce la idea de que los recursos deben contener enlaces a otros recursos relacionados. Las aplicaciones en este nivel utilizan los enlaces para navegar por la aplicación y realizar operaciones CRUD en los recursos.
+
+## Códigos HTTP
+
+- 200 OK : 
+La solicitud ha tenido éxito. El significado de un éxito varía dependiendo del método HTTP.
+
+- 204 No Content (en-US) : 
+La petición se ha completado con éxito pero su respuesta no tiene ningún contenido, aunque los encabezados pueden ser útiles. El agente de usuario puede actualizar sus encabezados en caché para este recurso con los nuevos valores.
+
+- 415 Unsupported Media Type (en-US)
+El formato multimedia de los datos solicitados no está soportado por el servidor, por lo cual el servidor rechaza la solicitud.
