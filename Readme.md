@@ -39,7 +39,7 @@
 
 4. Has los fetch correspondientes
 
-- depende de tu aplicación lo puedes hacer a 0.0.0.0 o a 127.0.0.1
+- depende de tu aplicación lo puedes hacer a 0.0.0.0 o a 127.0.0.1 en el endpoint /API/Encrypt/Image
 - Si hay un error con la petición sobre el servidor, es decir que no puede responderte porque no estás en la lista de aceptados como servicio prueba agregar tu puerto de entrada a la lista ubicada en main.py origins
 
 ~~~python 
