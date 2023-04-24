@@ -43,58 +43,59 @@ async def reciveImage(file: UploadFile = File(...)):
                 F.close()
             res_divide = await divide_img.divide(file_path, file.filename)
             # Respondo un archivo con la dirección de guardado
-            if res_divide["success"] == True: # esto también debería ir en un try catch
+            if res_divide["success"] == True:  # esto también debería ir en un try catch
                 return FileResponse(res_divide["img_ycrfile"])
-            else: return JSONResponse(
-                content={
-                    "Error": res_divide["error"],
-                },
-                status_code=415
-            )
+            else:
+                return JSONResponse(
+                    content={
+                        "Error": res_divide["error"],
+                    },
+                    status_code=415,
+                )
         else:
             return JSONResponse(
                 content={"Error": "La extención del archivo no es válida"},
-                status_code=415
+                status_code=415,
             )
     except:
         return JSONResponse(
-                content={"Error": "Algo Falló con el archivo"},
-                status_code=200
-            )
+            content={"Error": "Algo Falló con el archivo"}, status_code=200
+        )
 
+
+# este endpont es de desarrollo, aun no pidas cosas acá
 @router.post("/API/Encrypt/", tags=["Recive Imagen"])
 async def reciveImage(file: UploadFile = File(...)):
-        if file.filename[-4:] in imgFormats:
-            # Uno la ruta de imgFolder con el nombre del archivo menos la extensión
-            file_folder = os.path.join(imgFolder, file.filename[:-4])
-            # Creo la ruta final del archivo
-            os.makedirs(file_folder, exist_ok=True)
-            # Guardo el archivo dentro de la carpeta
-            file_path = os.path.join(file_folder, file.filename)
-            with open(file_path, "wb") as F:
-                content = await file.read()
-                F.write(content)
-                F.close()
-            res_divide = await divide_img.divide(file_path, file.filename)
-            # Respondo un archivo con la dirección de guardado
-            if res_divide["success"] == True: # esto también debería ir en un try catch
-                res_cif = await cypher_image(clave, iv, file_path, file.filename)
-                await hide_img(
-                    res_divide["img_yfile"], res_divide["img_cbfile"], res_divide["img_crfile"]
-                )
-                res_uncif = await decipher_image(clave, iv, file_path, file.filename)
-                return FileResponse(res_divide["img_ycrfile"])
-            else: return JSONResponse(
+    if file.filename[-4:] in imgFormats:
+        # Uno la ruta de imgFolder con el nombre del archivo menos la extensión
+        file_folder = os.path.join(imgFolder, file.filename[:-4])
+        # Creo la ruta final del archivo
+        os.makedirs(file_folder, exist_ok=True)
+        # Guardo el archivo dentro de la carpeta
+        file_path = os.path.join(file_folder, file.filename)
+        with open(file_path, "wb") as F:
+            content = await file.read()
+            F.write(content)
+            F.close()
+        res_divide = await divide_img.divide(file_path, file.filename)
+        # Respondo un archivo con la dirección de guardado
+        if res_divide["success"] == True:  # esto también debería ir en un try catch
+            res_cif = await cypher_image(clave, iv, file_path, file.filename)
+            await hide_img(
+                res_divide["img_yfile"],
+                res_divide["img_cbfile"],
+                res_divide["img_crfile"],
+            )
+            res_uncif = await decipher_image(clave, iv, file_path, file.filename)
+            return FileResponse(res_divide["img_ycrfile"])
+        else:
+            return JSONResponse(
                 content={
                     "Error": res_divide["error"],
                 },
-                status_code=415
+                status_code=415,
             )
-        else:
-            return JSONResponse(
-                content={"Error": "La extención del archivo no es válida"},
-                status_code=415
-            )
-
-
-
+    else:
+        return JSONResponse(
+            content={"Error": "La extención del archivo no es válida"}, status_code=415
+        )
