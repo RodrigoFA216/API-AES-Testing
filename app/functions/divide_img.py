@@ -78,7 +78,7 @@ async def divide(path, name):
             # es una imagen binaria
             return {
                 "success": False,
-                "error": "La imágen no es válida,es una imágen con más de tres espacios de color",
+                "error": "La imágen no es válida, es una imágen con menos de tres espacios de color",
             }
         elif properties[2] > 3:
             # es una imagen contransparencia

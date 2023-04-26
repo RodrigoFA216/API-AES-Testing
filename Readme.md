@@ -17,7 +17,7 @@
 - Dev Dependencies:
     - autopep8
 
-## Run aplication 
+# Run aplication 
 
 ### Install 
 1. python
@@ -48,6 +48,22 @@ origins = [
     "tu origen",
     "http://localhost:8080",
 ]
+~~~
+## Optional
+
+### Install
+1. docker
+
+### Run
+
+1. Crea la imágen de docker en tu sistema
+~~~
+docker build -t fastapi_testing_build .
+~~~
+
+2. Despliega la imágen en tu sistema
+~~~
+docker run -p 8001:80 --name fastapi_service fastapi_testing_build
 ~~~
 
 # Miscelaneus
