@@ -34,3 +34,6 @@ async def hide_img(path_y, path_a, path_b):
     A_vec_bin = bin_func(A_vector)
     B_vec_bin = bin_func(B_vector)
     # print(type(A_vec_bin[0]))
+    A_vec_bin_full = ""
+    for element in A_vec_bin:
+        A_vec_bin_full = A_vec_bin_full + A_vec_bin
