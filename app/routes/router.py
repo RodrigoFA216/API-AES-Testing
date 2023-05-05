@@ -81,13 +81,16 @@ async def reciveImage(file: UploadFile = File(...)):
         # Respondo un archivo con la dirección de guardado
         if res_divide["success"] == True:  # esto también debería ir en un try catch
             res_cif = await cypher_image(clave, iv, file_path, file.filename)
-            await hide_img(
+            res_hide = await hide_img(
                 res_divide["img_yfile"],
-                res_divide["img_cbfile"],
-                res_divide["img_crfile"],
+                res_divide["img_cbmin"],
+                res_divide["img_crmin"],
             )
+            if res_hide["success"] == True:
+                return FileResponse(res_hide["y-hided"])
+            else:
+                return FileResponse(res_divide["img_ycrfile"])
             res_uncif = await decipher_image(clave, iv, file_path, file.filename)
-            return FileResponse(res_divide["img_ycrfile"])
         else:
             return JSONResponse(
                 content={

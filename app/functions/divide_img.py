@@ -13,8 +13,8 @@ async def divide(path, name):
     properties = img.shape
     if len(properties) == 3:
         if properties[2] == 3:
-            resize_height = properties[0] // 2
-            resize_width = properties[1] // 2
+            resize_height = properties[0] // 4
+            resize_width = properties[1] // 4
             img_yuv = cv2.cvtColor(img, cv2.COLOR_BGR2YCrCb)
             y, cb, cr = cv2.split(img_yuv)
             ycb = cv2.merge([y, cb, np.zeros_like(cb)])
@@ -62,8 +62,8 @@ async def divide(path, name):
                 return {
                     "success": True,
                     "error": False,
-                    "img_crfile": cr_resize_path,
-                    "img_cbfile": cb_resize_path,
+                    "img_crmin": cr_resize_path,
+                    "img_cbmin": cb_resize_path,
                     "or_h": properties[0],
                     "or_w": properties[1],
                     "resize_h": resize_height,

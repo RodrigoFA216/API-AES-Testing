@@ -1,11 +1,9 @@
-import numpy as np
+arr1 = ["100", "101", "101", "100", "100"]
+arr2 = "1001"
 
-A = np.array([[1, 2, 3, 4, 5], [6, 7, 8, 9, 10], [11, 12, 13, 14, 15]])
+for indice, elemento in enumerate(arr2):
+    aux = arr1[indice]
+    aux = aux[:-1] + elemento
+    arr1[indice] = aux
 
-a = 0
-
-for element in A:
-    for i in element:
-        a += i
-
-print(a / A.shape[0])
+print(arr1)
